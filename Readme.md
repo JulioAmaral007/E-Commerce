@@ -12,6 +12,7 @@ Além disso, você pode gerenciar suas transações, em categorias, o que facili
 - NextJS
 - Typescript
 - React
+- Stripe
 - Styled Components
 
 <br />
