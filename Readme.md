@@ -12,8 +12,6 @@
 - Stripe
 - Styled Components
 
-<br />
-
 ## 🚧 Layout
 
 <a href="https://www.figma.com/file/rMADZl18lY3SowpKJhdSOU/Ignite-Shop-(Copy)?node-id=0%3A1&t=Z744mzwQ951y3I2K-0" target="_blank">
