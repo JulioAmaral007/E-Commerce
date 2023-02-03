@@ -4,9 +4,6 @@
   <img title="Home" src="public/asset.png" />
 </div>
 
-O Finance é uma aplicação simples de controle financeiro, onde você pode cadastrar suas entradas e saídas, e ver o saldo total.
-Além disso, você pode gerenciar suas transações, em categorias, o que facilita a visualização do seu dinheiro.
-
 ### 🛠️ Nesse projeto foi utilizado
 
 - NextJS
