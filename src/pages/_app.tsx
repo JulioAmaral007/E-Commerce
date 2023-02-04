@@ -1,10 +1,10 @@
 import { globalStyles } from '@/styles/global'
-import type { AppProps } from 'next/app'
-import Image from 'next/image'
-
-import logoImg from '../assets/logo.svg'
-import { Container, Header } from '@/styles/pages/app'
 import Head from 'next/head'
+import type { AppProps } from 'next/app'
+
+import { Header } from '@/components/Header'
+
+import { Container } from '@/styles/pages/app'
 
 globalStyles()
 
@@ -14,10 +14,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <Head>
         <link rel="icon" type="image/svg" href="/icon.svg" />
       </Head>
+
       <Container>
-        <Header>
-          <Image src={logoImg} alt="" />
-        </Header>
+        <Header />
 
         <Component {...pageProps} />
       </Container>

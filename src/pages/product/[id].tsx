@@ -11,7 +11,6 @@ import {
   ImageContainer,
   ProductContainer,
   ProductDetails,
-  ProductLoadingContainer,
 } from '@/styles/pages/product'
 import Head from 'next/head'
 
@@ -29,16 +28,6 @@ interface ProductProps {
 export default function Product({ product }: ProductProps) {
   const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
     useState(false)
-
-  const { isFallback } = useRouter()
-
-  if (isFallback) {
-    return (
-      <ProductContainer>
-        <ProductLoadingContainer></ProductLoadingContainer>
-      </ProductContainer>
-    )
-  }
 
   async function handleBuyProduct() {
     try {
@@ -97,7 +86,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
         params: { id: 'prod_NH0qFqToPCNJxI' },
       },
     ],
-    fallback: true,
+    fallback: 'blocking',
   }
 }
 
