@@ -1,5 +1,11 @@
 import * as Dialog from '@radix-ui/react-dialog'
+import { useState } from 'react'
+import Image from 'next/image'
 import { CartButton } from '../CartButton'
+import { X } from 'phosphor-react'
+import { useCart } from '@/hooks/useCart'
+import axios from 'axios'
+
 import {
   CartClose,
   CartContent,
@@ -7,12 +13,38 @@ import {
   CartProduct,
   CartProductDetails,
   CartProductImage,
+  CartSection,
   FooterDetails,
 } from './styles'
-import { X } from 'phosphor-react'
-import Image from 'next/image'
 
 export function Cart() {
+  const { cartItems, removeCartItem, cartTotal } = useCart()
+  const cartQuantity = cartItems.length
+
+  const formattedCartTotal = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format(cartTotal)
+
+  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
+    useState(false)
+
+  async function handleCheckout() {
+    try {
+      setIsCreatingCheckoutSession(true)
+
+      const response = await axios.post('/api/checkout', {
+        products: cartItems,
+      })
+
+      const { checkoutUrl } = response.data
+      window.location.href = checkoutUrl
+    } catch (err) {
+      setIsCreatingCheckoutSession(false)
+      alert('Falha ao redirecionado ao checkout!')
+    }
+  }
+
   return (
     <Dialog.Root>
       <Dialog.Trigger asChild>
@@ -25,33 +57,49 @@ export function Cart() {
             <X size={24} weight="bold" />
           </CartClose>
           <Dialog.Title>Sacola de compras</Dialog.Title>
-          <Dialog.Description>
-            {/* <p>Parece que seu Carrinho está vazio :(</p> */}
+          <CartSection>
+            {cartQuantity <= 0 && <p>Parece que seu Carrinho está vazio :(</p>}
 
-            <CartProduct>
-              <CartProductImage>
-                <Image width={100} height={93} alt="" />
-              </CartProductImage>
+            {cartItems.map((cartItem) => (
+              <CartProduct key={cartItem.id}>
+                <CartProductImage>
+                  <Image
+                    src={cartItem.imageUrl}
+                    width={100}
+                    height={93}
+                    alt=""
+                  />
+                </CartProductImage>
 
-              <CartProductDetails>
-                <p>Product 1</p>
-                <strong>valor</strong>
-                <button>Remover</button>
-              </CartProductDetails>
-            </CartProduct>
-          </Dialog.Description>
+                <CartProductDetails>
+                  <p>{cartItem.name}</p>
+                  <strong>{cartItem.price}</strong>
+                  <button onClick={() => removeCartItem(cartItem.id)}>
+                    Remover
+                  </button>
+                </CartProductDetails>
+              </CartProduct>
+            ))}
+          </CartSection>
           <CartFooter>
             <FooterDetails>
               <div>
                 <span>Quantidade</span>
-                <p>2 itens</p>
+                <p>
+                  {cartQuantity} {cartQuantity === 1 ? 'item' : 'itens'}
+                </p>
               </div>
               <div>
                 <span>Valor Total</span>
-                <p>valor</p>
+                <p>{formattedCartTotal}</p>
               </div>
             </FooterDetails>
-            <button>Finalizar compra</button>
+            <button
+              onClick={handleCheckout}
+              disabled={isCreatingCheckoutSession || cartQuantity <= 0}
+            >
+              Finalizar compra
+            </button>
           </CartFooter>
         </CartContent>
       </Dialog.Portal>

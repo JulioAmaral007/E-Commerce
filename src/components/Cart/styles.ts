@@ -20,6 +20,26 @@ export const CartContent = styled(Dialog.Content, {
     color: '$gray100',
     marginBottom: '2rem',
   },
+
+  '::-webkit-scrollbar': {
+    width: '0.6rem',
+  },
+  '::-webkit-scrollbar-track': {
+    background: '$gray300',
+    borderRadius: '4rem',
+  },
+  '::-webkit-scrollbar-thumb': {
+    borderRadius: '4rem',
+    background: '$green500',
+  },
+})
+
+export const CartSection = styled(Dialog.Description, {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '1.5rem',
+  flex: 1,
+  overflowY: 'auto',
 })
 
 export const CartClose = styled(Dialog.Close, {
